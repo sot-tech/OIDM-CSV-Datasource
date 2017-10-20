@@ -62,10 +62,10 @@ public class CSVDataSource extends AbstractDataSource {
 
 	protected boolean expectHeader = false;
 
-	protected int state, column, symbol, lines, maxColumns = 0;
-	protected HashMap<String, Object> readyLine;
-	protected ArrayList<String> headers;
-	protected StringBuilder readyField;
+	protected int state = 0, column = 0, symbol = 0, lines = 0, maxColumns = 0;
+	protected HashMap<String, Object> readyLine = new HashMap<>();
+	protected ArrayList<String> headers = new ArrayList<>();
+	protected StringBuilder readyField = new StringBuilder();
 	protected final ArrayList<HashMap<String, Object>> parsedLines = new ArrayList<>();
 	private String filePath, fileEncoding = "UTF-8";
 
