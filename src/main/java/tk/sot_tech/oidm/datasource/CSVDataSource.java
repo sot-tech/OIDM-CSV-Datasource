@@ -41,7 +41,8 @@ public class CSVDataSource extends AbstractDataSource {
 	public static final int NONE = 0, STORE = 1, FIELD = 2, LINE = 3, ERROR = -1;
 	public static final char CAR_RET = '\r', NEW_LINE = '\n', QUOTE = '"', FIELD_SEPARATOR = ',';
 	public static final String FILE_PATH_PARAMETER = "filePath",
-		FILE_ENCODING_PARAMETER = "codePage";
+		FILE_ENCODING_PARAMETER = "codePage",
+		EXPECT_HEADER_PARAMETER = "expectHeader";
 
 	public static enum Token {
 		CHAR, FIELD_SEPARATOR, LINE_SEPARATOR, CAR_RETURN, QUOTE;
@@ -201,6 +202,7 @@ public class CSVDataSource extends AbstractDataSource {
 		if (!Misc.isNullOrEmpty(tmp)) {
 			fileEncoding = tmp;
 		}
+		expectHeader = Misc.toBoolean(parameters.getParameters().get(EXPECT_HEADER_PARAMETER));
 		return this;
 	}
 
