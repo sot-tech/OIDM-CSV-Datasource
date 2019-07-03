@@ -32,11 +32,15 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import tk.sot_tech.oidm.sch.AbstractDataSource;
 import tk.sot_tech.oidm.sch.SheduledTaskTerminatedException;
 import tk.sot_tech.oidm.utility.Misc;
 
 public class CSVDataSource extends AbstractDataSource {
+
+	private static final Logger LOG = Logger.getLogger(CSVDataSource.class.getName());
 
 	public static final int NONE = 0, STORE = 1, FIELD = 2, LINE = 3, ERROR = -1;
 	public static final char CAR_RET = '\r', NEW_LINE = '\n', QUOTE = '"', FIELD_SEPARATOR = ',';
@@ -75,7 +79,8 @@ public class CSVDataSource extends AbstractDataSource {
 
 		String data = new String(Files.readAllBytes(Paths.get(filePath)), Charset.forName(
 								 fileEncoding));
-		if (Misc.isNullOrEmpty(data)) {
+		LOG.log(Level.FINEST, "File data:\n{0}", data);
+		if (!Misc.isNullOrEmpty(data)) {
 			process(data);
 		}
 		return parsedLines;
@@ -203,6 +208,7 @@ public class CSVDataSource extends AbstractDataSource {
 			fileEncoding = tmp;
 		}
 		expectHeader = Misc.toBoolean(parameters.getParameters().get(EXPECT_HEADER_PARAMETER));
+		LOG.log(Level.INFO, "Init complete {0}", toString());
 		return this;
 	}
 
@@ -215,6 +221,11 @@ public class CSVDataSource extends AbstractDataSource {
 	@Override
 	public void close() throws Exception {
 
+	}
+
+	@Override
+	public String toString() {
+		return "CSVDataSource{" + "expectHeader=" + expectHeader + ", filePath=" + filePath + ", fileEncoding=" + fileEncoding + '}';
 	}
 
 }
